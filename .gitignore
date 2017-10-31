@@ -1,0 +1,5 @@
+seefood/seefood/static
+seefood/seefood/media
+*.pyc
+*.sqlite
+*~

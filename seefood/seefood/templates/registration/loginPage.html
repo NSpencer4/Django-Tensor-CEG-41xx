@@ -1,0 +1,22 @@
+{% extends "page.html" %}
+
+
+{% block title %}Login{% endblock %}
+
+
+{% block css %}
+    {{block.super}}
+{% endblock %}
+{% block js %}
+    {{block.super}}
+{% endblock %}
+{% block cont %}
+
+    <div class="col-sm-12">
+        <div class="row">
+
+            {% include "registration/loginForm.html" %}
+
+        </div>
+    </div>
+{% endblock cont %}

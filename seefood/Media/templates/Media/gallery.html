@@ -1,0 +1,38 @@
+{% extends "page.html" %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block css %}
+    {{block.super}}
+    <style>
+        .butt {
+            float: left;
+            width: 20%;
+            padding: 4px;
+        }
+    </style>
+{% endblock %}
+{% block js %}
+    {{block.super}}
+{% endblock %}
+
+
+{% block cont %}
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="col-sm-12">
+            {% for p in recent %}
+                <div class="butt">
+                    <a href="{% url 'Media:gallery' p.id %}">
+                        <img  src="{{ p.photos.first.thumb.url }}"class="img-responsive img-rounded" alt="{{ p.photos.first.title }}">
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock cont %}
