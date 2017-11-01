@@ -4,3 +4,9 @@ seefood/seefood/media
 *.sqlite
 *~
 seefood/node_modules
+.idea
+.vscode
+.temp
+*.log
+*.pyc
+.editorconfig
