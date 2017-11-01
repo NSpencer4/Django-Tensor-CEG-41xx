@@ -3,3 +3,4 @@ seefood/seefood/media
 *.pyc
 *.sqlite
 *~
+seefood/node_modules
