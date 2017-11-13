@@ -1,0 +1,126 @@
+{% extends "page.html" %}
+
+{% block title %}Home{% endblock %}
+
+
+{% block css %}
+    {{block.super}}
+    <style>
+        .butt {
+            float: left;
+            width: 20%;
+            padding: 4px;
+        }
+        .fml {
+            text-align: center;
+        }
+
+        #theimg {
+            max-width:480px;
+        }
+    </style>
+{% endblock %}
+{% block js %}
+    {{block.super}}
+    <script>
+
+        function browseClick() {
+            // add "active" class
+            $('#browseBtn').attr('class', 'btn btn-primary');
+
+            // make capture button inactive
+            $('#captureBtn').attr('class', 'btn btn-default');
+
+            // open the file chooser dialog
+            $('#fileInput').click();
+        }
+
+        function captureClick() {
+            // add "active" class
+            $('#captureBtn').attr('class', 'btn btn-primary');
+
+            // make browse button inactive
+            $('#browseBtn').attr('class', 'btn btn-default');
+
+            // display camera feed
+        }
+
+        // place selected image into img element
+        function onFileSelected(event) {
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+
+            var imgtag = document.getElementById("theimg");
+            imgtag.title = selectedFile.name;
+
+            reader.onload = function(event) {
+                imgtag.src = event.target.result;
+            };
+
+            reader.readAsDataURL(selectedFile);
+        }
+
+        // ONLY WORKS IN HTTPS
+        // var video = document.querySelector('video');
+        // var canvas = document.querySelector('canvas');
+        // var ctx = canvas.getContext('2d');
+        // var localMediaStream = null;
+
+        // function snapshot() {
+        //     if (localMediaStream) {
+        //     ctx.drawImage(video, 0, 0);
+        //     // "image/webp" works in Chrome.
+        //     // Other browsers will fall back to image/png.
+        //     document.querySelector('img').src = canvas.toDataURL('image/webp');
+        //     }
+        // }
+
+        // video.addEventListener('click', snapshot, false);
+
+        // // Not showing vendor prefixes or code that works cross-browser.
+        // navigator.getUserMedia({video: true}, function(stream) {
+        //     video.src = window.URL.createObjectURL(stream);
+        //     localMediaStream = stream;
+        // }, function errorCallBack() {
+        //     console.log("fuuuuuuuuuck");
+        // });
+
+        // Prefer camera resolution nearest to 1280x720.
+        var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(mediaStream) {
+            var video = document.querySelector('video');
+            video.srcObject = mediaStream;
+            video.onloadedmetadata = function(e) {
+                video.play();
+            };
+        })
+        .catch(function(err) { console.log(err.name + ": " + err.message); }); // always check for errors at the end.
+    </script>
+{% endblock %}
+
+
+{% block cont %}
+<div class="row">
+    <div class="panel panel-default">
+        <div class="panel-heading fml">
+            <button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /
+            <input id="fileInput" type="file" onchange="onFileSelected(event)" style="display:none" />
+            <button id="captureBtn" type="button" class="btn btn-default" onclick="captureClick()">Capture</button>
+            <!-- <input type="file" accept="image/*;capture=camera" style="display:none;">             -->
+        </div>
+        <div class="panel-body">
+            <div class="col-sm-12 fml">
+                <video autoplay></video>                    
+                <img id="theimg" src="https://vignette.wikia.nocookie.net/theoffice/images/c/cd/Dwight_Schrute.jpg/revision/latest?cb=20110105114630" alt="imagealt" class="img-rounded">                    
+                <canvas style="display:none;"></canvas>
+            </div>
+        </div>
+        <div class="panel-footer fml">
+            <button type="button" class="btn btn-primary">Upload</button>
+        </div>
+    </div>
+</div>
+
+{% endblock cont %}

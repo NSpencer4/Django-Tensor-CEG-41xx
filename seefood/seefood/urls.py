@@ -11,7 +11,6 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include('Media.urls', namespace="Media")),
-
     url('^', include('django.contrib.auth.urls'))
 ]
 
