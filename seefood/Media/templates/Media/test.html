@@ -24,6 +24,21 @@
     {{block.super}}
     <script>
 
+        $(document).ready(function() {
+            // show / hide capture or browse
+            $('#theimg').css('display', 'none');
+        });
+
+        function showVideo() {
+            $('#theimg').css('display', 'none');
+            $('#thevid').css('display', '');
+        }
+
+        function showBrowse() {
+            $('#theimg').css('display', '');
+            $('#thevid').css('display', 'none');
+        }
+
         function browseClick() {
             // add "active" class
             $('#browseBtn').attr('class', 'btn btn-primary');
@@ -33,6 +48,8 @@
 
             // open the file chooser dialog
             $('#fileInput').click();
+
+            showBrowse();
         }
 
         function captureClick() {
@@ -43,6 +60,7 @@
             $('#browseBtn').attr('class', 'btn btn-default');
 
             // display camera feed
+            showVideo();
         }
 
         // place selected image into img element
@@ -86,7 +104,7 @@
         // });
 
         // Prefer camera resolution nearest to 1280x720.
-        var constraints = { audio: true, video: { width: 1280, height: 720 } }; 
+        var constraints = { audio: false, video: { width: 1280, height: 720 } }; 
 
         navigator.mediaDevices.getUserMedia(constraints)
         .then(function(mediaStream) {
@@ -107,12 +125,13 @@
         <div class="panel-heading fml">
             <button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /
             <input id="fileInput" type="file" onchange="onFileSelected(event)" style="display:none" />
-            <button id="captureBtn" type="button" class="btn btn-default" onclick="captureClick()">Capture</button>
+            <button id="captureBtn" type="button" class="btn btn-primary" onclick="captureClick()">Capture</button>
             <!-- <input type="file" accept="image/*;capture=camera" style="display:none;">             -->
         </div>
         <div class="panel-body">
             <div class="col-sm-12 fml">
-                <video autoplay></video>                    
+                <video id="thevid" width="480" autoplay></video>
+                <br>    
                 <img id="theimg" src="https://vignette.wikia.nocookie.net/theoffice/images/c/cd/Dwight_Schrute.jpg/revision/latest?cb=20110105114630" alt="imagealt" class="img-rounded">                    
                 <canvas style="display:none;"></canvas>
             </div>
