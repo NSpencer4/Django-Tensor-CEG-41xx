@@ -68,28 +68,5 @@ def loginUser(request):
 
     return render(request,'registration/loginPage.html', context)
 
-
-
-def gallery(request, pk=None):
-    context= {}
-    context['loginForm'] = AuthenticationForm()
-
-    allPosts = Post.objects.all()
-    length = allPosts.count()
-    for i, p in enumerate(allPosts):
-        if p.pk == int(pk):
-            context['current'] = p
-            if i+1 < length:
-                context['nextPost'] = allPosts[i+1]
-
-            if i > 0:
-                context['prevPost'] = allPosts[i-1]
-            break
-
-    if "current" not in context:
-        raise Http404
-
-    return render(request, 'Media/post.html', context)
-
 def test(request):
     return render(request, 'Media/test.html')

@@ -69,13 +69,3 @@ class Photo(models.Model):
         super(Photo, self).save(*args, **kwargs)
         #self.save()
 
-
-class Comment(models.Model):
-    #item = generic relation back to album or post
-    post = models.ForeignKey('Post', related_name="comments")
-    owner = models.ForeignKey(User)
-    comments = models.TextField()
-    added_on = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-       return self.comments[:20]
