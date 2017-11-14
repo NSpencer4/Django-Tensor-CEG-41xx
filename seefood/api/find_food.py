@@ -33,14 +33,14 @@ image_path = args.image_path
 image = Image.open(image_path).convert('RGB')
 image = image.resize((227, 227), Image.BILINEAR)
 img_tensor = [np.asarray(image, dtype=np.float32)]
-print 'looking for food in '+image_path
+print ("looking for food in "+image_path)
 
 #Run the image in the model.
 scores = sess.run(class_scores, {x_input: img_tensor, keep_prob: 1.})
-print scores
+print (scores)
 # if np.argmax = 0; then the first class_score was higher, e.g., the model sees food.
 # if np.argmax = 1; then the second class_score was higher, e.g., the model does not see food.
 if np.argmax(scores) == 1:
-    print "No food here... :( "
+    print ("No food here... :( ")
 else:
-    print "Oh yes... I see food! :D"
+    print ("Oh yes... I see food! :D")
