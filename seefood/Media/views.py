@@ -90,3 +90,6 @@ def gallery(request, pk=None):
         raise Http404
 
     return render(request, 'Media/post.html', context)
+
+def test(request):
+    return render(request, 'Media/test.html')

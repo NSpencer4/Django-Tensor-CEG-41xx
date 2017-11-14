@@ -1,6 +1,13 @@
 seefood/seefood/static
 seefood/seefood/media
+seefood/api/saved_models
 *.pyc
 *.sqlite
 *~
 seefood/node_modules
+.idea
+.vscode
+.temp
+*.log
+*.pyc
+.editorconfig
