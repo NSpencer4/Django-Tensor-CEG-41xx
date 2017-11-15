@@ -6,6 +6,7 @@ seefood/Media/saved_models
 *.sqlite
 *~
 seefood/node_modules
+node_modules
 .idea
 .vscode
 .temp

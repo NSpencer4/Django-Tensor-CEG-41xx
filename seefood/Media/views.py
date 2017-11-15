@@ -14,7 +14,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 TEST_IMG = os.path.join(BASE_DIR, 'test.jpg')
 
-find_food.find_food(TEST_IMG)
+# find_food.find_food(TEST_IMG)
 
 def gallery(request):
     if request.method == 'POST' and request.FILES['myfile']:
