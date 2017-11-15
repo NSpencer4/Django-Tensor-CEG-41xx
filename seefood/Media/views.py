@@ -5,9 +5,16 @@ from django.http import Http404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from Media import forms
+from Media import forms, find_food
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
+import os
+
+# Get absolute url for image TODO: REMOVE THIS SHIT WHEN WE GET THE REST SERVICES UP
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEST_IMG = os.path.join(BASE_DIR, 'test.jpg')
+
+find_food.find_food(TEST_IMG)
 
 def gallery(request):
     if request.method == 'POST' and request.FILES['myfile']:
