@@ -10,11 +10,12 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import os
 
-# Get absolute url for image TODO: REMOVE THIS SHIT WHEN WE GET THE REST SERVICES UP
+# Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-TEST_IMG = os.path.join(BASE_DIR, 'test.jpg')
 
-# find_food.find_food(TEST_IMG)
+# Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media\uploads
+UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
+
 
 def gallery(request):
     if request.method == 'POST' and request.FILES['myfile']:
@@ -22,8 +23,12 @@ def gallery(request):
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
+        image_path = os.path.join(UPLOADS_DIR, filename)
+        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
+        tensor_results = find_food.find_food(image_path)
         return render(request, 'Media/gallery.html', {
-            'uploaded_file_url': uploaded_file_url
+            'uploaded_file_url': uploaded_file_url,
+            'tensor_results': tensor_results
         })
     return render(request, 'Media/gallery.html')
 

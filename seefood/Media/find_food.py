@@ -41,10 +41,22 @@ def find_food(image_path):
 
     #Run the image in the model.
     scores = sess.run(class_scores, {x_input: img_tensor, keep_prob: 1.})
+
+    # Create return object
+    rtn_data_obj = {}
+
+    # Set the score to the rtn data obj dict
+    rtn_data_obj['scores'] = scores
     print (scores)
     # if np.argmax = 0; then the first class_score was higher, e.g., the model sees food.
     # if np.argmax = 1; then the second class_score was higher, e.g., the model does not see food.
+
+    # Return our data
     if np.argmax(scores) == 1:
         print ("No food here... :( ")
+        rtn_data_obj['result'] = "No food here... :( "
+        return rtn_data_obj
     else:
         print ("Oh yes... I see food! :D")
+        rtn_data_obj['result'] = "Oh yes... I see food! :D"
+        return rtn_data_obj
