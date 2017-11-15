@@ -9,10 +9,12 @@ Aug 9 2017
 """
 import os
 import random
+from datetime import datetime
+
 import numpy as np
 import tensorflow as tf
 from PIL import Image
-from datetime import datetime
+
 import process_food_data
 
 ###### Initialization code - we only need to run this once and keep in memory.

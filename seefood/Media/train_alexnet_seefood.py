@@ -21,16 +21,18 @@ Aug 3 2017
 """
 
 from __future__ import print_function
-import random
+
 import os
-import numpy as np
+import random
 from datetime import datetime
+
+import numpy as np
 import tensorflow as tf
 from PIL import Image
 
-from alexnet import AlexNet
-#import tf_cnnvis
+# import tf_cnnvis
 import process_food_data
+from alexnet import AlexNet
 
 # Learning and network params
 learning_rate = 0.001

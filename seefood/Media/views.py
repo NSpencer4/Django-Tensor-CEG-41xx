@@ -5,16 +5,40 @@ from django.http import Http404
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from Media import forms
+from Media import forms, find_food
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+import os
 
+# Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media\uploads
+UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
+
+
+def gallery(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        image_path = os.path.join(UPLOADS_DIR, filename)
+        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
+        tensor_results = find_food.find_food(image_path)
+        return render(request, 'Media/gallery.html', {
+            'uploaded_file_url': uploaded_file_url,
+            'tensor_results': tensor_results
+        })
+    return render(request, 'Media/gallery.html')
 
 def index(request):
 
     context = {
-        'recent' : Post.objects.all(),
-        'loginForm'   : AuthenticationForm()
+        'recent': Post.objects.all(),
+        'loginForm': AuthenticationForm()
     }
-    return render(request, 'Media/gallery.html', context)
+    return render(request, 'Media/homepage.html', context)
 
 
 def random(request):
@@ -67,29 +91,6 @@ def loginUser(request):
             context['error'] = 'Your username or password are incorrect'
 
     return render(request,'registration/loginPage.html', context)
-
-
-
-def gallery(request, pk=None):
-    context= {}
-    context['loginForm'] = AuthenticationForm()
-
-    allPosts = Post.objects.all()
-    length = allPosts.count()
-    for i, p in enumerate(allPosts):
-        if p.pk == int(pk):
-            context['current'] = p
-            if i+1 < length:
-                context['nextPost'] = allPosts[i+1]
-
-            if i > 0:
-                context['prevPost'] = allPosts[i-1]
-            break
-
-    if "current" not in context:
-        raise Http404
-
-    return render(request, 'Media/post.html', context)
 
 def test(request):
     return render(request, 'Media/test.html')
