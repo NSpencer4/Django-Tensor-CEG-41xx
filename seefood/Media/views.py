@@ -26,7 +26,7 @@ def index(request):
         'recent' : Post.objects.all(),
         'loginForm'   : AuthenticationForm()
     }
-    return render(request, 'Media/gallery.html', context)
+    return render(request, 'Media/homepage.html', context)
 
 
 def random(request):
