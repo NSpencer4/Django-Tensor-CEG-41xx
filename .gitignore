@@ -1,6 +1,7 @@
 seefood/seefood/static
 seefood/seefood/media
-seefood/api/saved_models
+seefood/Media/saved_model
+seefood/Media/saved_models
 *.pyc
 *.sqlite
 *~

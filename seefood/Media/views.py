@@ -30,8 +30,8 @@ def gallery(request):
 def index(request):
 
     context = {
-        'recent' : Post.objects.all(),
-        'loginForm'   : AuthenticationForm()
+        'recent': Post.objects.all(),
+        'loginForm': AuthenticationForm()
     }
     return render(request, 'Media/homepage.html', context)
 
