@@ -1,6 +1,5 @@
 # Group-4110 SeeFood Project
 
-# Environment Setup Guide:
 **Linux Environment:**
 
 1. Install Python 3.5.2
