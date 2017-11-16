@@ -7,7 +7,7 @@
   2. sudo apt-get install build-essential checkinstall
   3. sudo apt-get install libreadline-gplv2-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
   4. cd ~/Downloads/
-  5. wget [https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz](https://www.python.org/ftp/python/2.7.12/Python-2.7.12.tgz)
+  5. wget [https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz](https://www.python.org/ftp/python/3.5.2/Python-3.5.2.tgz)
   6. tar -xvf Python-3.5.2.tgz
   7. cd Python-3.5.2
   8. ./configure
@@ -40,7 +40,7 @@
 **Windows Environment:**
 
 1. Install Python 3.5.2
-  1. Download: [https://www.python.org/ftp/python/3.5.2/python-3.5.2.amd64.msi](https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi)
+  1. Download: [https://www.python.org/ftp/python/3.5.2/python-3.5.2.amd64.msi](https://www.python.org/ftp/python/3.5.2/python-3.5.2.amd64.msi)
   2. Run the installer
 2. Install Pip
   1. python get-pip.py
@@ -67,7 +67,7 @@
 **Mac Environment:**
 
 1. Install Python 3.5.2
-  1. Download: [https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg](https://www.python.org/ftp/python/2.7.12/python-2.7.12-macosx10.6.pkg)
+  1. Download: [https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg](https://www.python.org/ftp/python/3.5.2/python-3.5.2-macosx10.6.pkg)
   2. Run the installer
 2. Install Pip
   1. python get-pip.py
