@@ -34,11 +34,11 @@ def upload(request):
     return render(request, 'Media/upload.html')
 
 def gallery(request):
-    def get_queryset(self):
-        """
-        Excludes any polls that aren't published yet.
-        """
-        return Upload.objects.filter(pub_date__lte=timezone.now())
+
+    context = {
+        'recent': Upload.objects.all()
+    }
+    return render(request, 'Media/gallery.html', context)
 
 def index(request):
 
