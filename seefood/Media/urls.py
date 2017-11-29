@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^registration', views.createUser, name ="createUser"),
     url(r'^gallery/', views.gallery, name='gallery'),
     url(r'^test/', views.test, name='test'),
+    url(r'^help/', views.help, name='help'),
 ]

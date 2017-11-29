@@ -94,3 +94,6 @@ def loginUser(request):
 
 def test(request):
     return render(request, 'Media/test.html')
+
+def help(request):
+    return render(request, 'Media/help.html')
