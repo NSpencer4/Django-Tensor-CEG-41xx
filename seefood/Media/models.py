@@ -35,6 +35,6 @@ class Upload(models.Model):
     # def __str__(self):
     #     return self.image_path
 
-    # Older python 3 way
+    # Older python 2 way
     def __unicode__(self):
         return self.image_path

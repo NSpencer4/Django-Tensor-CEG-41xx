@@ -15,7 +15,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-
+            {% for p in uploads %}
+                <div>
+                    <a href="{% url 'Media:gallery' %}">
+                        <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
+                    </a>
+                </div>
+            {% endfor %}
         </div>
     </div>
 </div>

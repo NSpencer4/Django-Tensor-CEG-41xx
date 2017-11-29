@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 from datetime import datetime
+import logging
 import os
 
 # Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media
@@ -26,6 +27,7 @@ def upload(request):
         filename = fs.save(myfile.name, myfile)
         uploaded_file_url = fs.url(filename)
         image_path = os.path.join(UPLOADS_DIR, filename)
+        display_path = os.path.join('/uploads/', filename)
         print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
 
         # Run the image through tensorflow
@@ -34,7 +36,7 @@ def upload(request):
         # Send the Upload obj to the database
         # Package up the necessary fields
         upload_obj = {}
-        upload_obj['image_path'] = image_path
+        upload_obj['image_path'] = display_path
         upload_obj['user'] = request.user
         upload_obj['confidence_score'] = tensor_results['scores']
         upload_obj['tensor_verdict'] = tensor_results['result']
@@ -54,14 +56,18 @@ def upload(request):
         'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
+
     # Regardless of the event render the page if not done
     return render(request, 'Media/upload.html')
 
 def gallery(request):
     # TODO: Change this to query by user
-    context = {
-        'uploads': Upload.objects.all()
-    }
+
+    context = {}
+    context['uploads'] = []
+
+    for e in Upload.objects.all():
+        context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
 
