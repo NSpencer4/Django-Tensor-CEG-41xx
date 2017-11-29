@@ -13,7 +13,11 @@
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
-                  {% if not user.is_authenticated and loginForm %}
+                <li><a href="/upload">Upload</a></li>
+                <li><a href="/gallery">Gallery</a></li>
+                <li><a href="/test">Test</a></li>
+                <li><a href="/help">Help</a></li>
+                {% if not user.is_authenticated and loginForm %}
                   <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 
                 {%endif%}
@@ -21,15 +25,11 @@
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}?next={{request.get_full_path}}">Logout</a></li>
                 {% endif %}
-
-
-                <li><a href="/upload">Upload</a></li>
-                <li><a href="/gallery">Gallery</a></li>
-                <li><a href="/test">Test</a></li>
-                <li><a href="/help">Help</a></li>
-                <li><a href="/admin">Admin</a></li>
                 {% if not user.is_authenticated %}
                 <li><a href="/registration">Create Account</a></li>
+                {%endif%}
+                {% if user.is_superuser %}
+                    <li><a href="/admin">Admin</a></li>
                 {%endif%}
               </ul>
               <ul class="nav navbar-nav navbar-right">
