@@ -61,8 +61,6 @@ def upload(request):
     return render(request, 'Media/upload.html')
 
 def gallery(request):
-    # TODO: Change this to query by user
-
     context = {}
     context['uploads'] = []
 
@@ -71,11 +69,30 @@ def gallery(request):
 
     return render(request, 'Media/gallery.html', context)
 
-def set_accuracy(request, img_id):
-    # TODO: Fix this to allow for user input on if tensorflow was accurate or not
-    if request.method == 'PUT':
+def set_accuracy(request):
+    if request.method == 'POST':
+        id = request.POST.get('pk')
+        accurate = request.POST.get('accurate')
         # Update the upload obj to see if tensorflow was accurate or not
-        img_obj = get_object_or_404(Upload, pk=img_id)
+        get_object_or_404(Upload, pk=id)
+
+        try:
+            selected_img = Upload.objects.get(pk=id)
+        except (KeyError, Upload.DoesNotExist):
+            return render(request, 'Media/gallery.html')
+        else:
+            selected_img.accurate = accurate
+            selected_img.save()
+
+        # logger = logging.getLogger(__name__)
+        # logger.debug(request)
+    context = {}
+    context['uploads'] = []
+
+    for e in Upload.objects.filter(user=request.user):
+        context['uploads'].append(e)
+
+    return render(request, 'Media/gallery.html', context)
 
 def index(request):
 
