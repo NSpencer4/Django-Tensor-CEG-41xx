@@ -19,7 +19,7 @@
                 {%endif%}
 
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'django.contrib.auth.views.logout' %}?next={{request.get_full_path}}">Logout</a></li>
+                    <li><a href="{% url 'logout' %}?next={{request.get_full_path}}">Logout</a></li>
                 {% endif %}
 
 
