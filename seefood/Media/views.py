@@ -42,17 +42,17 @@ def upload(request):
         upload_obj['accurate'] = 'Default User Accuracy'
 
         new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
-                                             added_on=datetime.utcnow(),
-                                             user=upload_obj['user'],
-                                             confidence_score=upload_obj['confidence_score'],
-                                             tensor_verdict=upload_obj['tensor_verdict'],
-                                             title=upload_obj['title'],
-                                             accurate=upload_obj['accurate'])
+                                     added_on=datetime.utcnow(),
+                                     user=upload_obj['user'],
+                                     confidence_score=upload_obj['confidence_score'],
+                                     tensor_verdict=upload_obj['tensor_verdict'],
+                                     title=upload_obj['title'],
+                                     accurate=upload_obj['accurate'])
 
         return render(request, 'Media/upload.html', {
-            'uploaded_file_url': uploaded_file_url,
-            'tensor_results': tensor_results,
-            'new_upload_id': new_upload
+        'uploaded_file_url': uploaded_file_url,
+        'tensor_results': tensor_results,
+        'new_upload_id': new_upload
         })
     # Regardless of the event render the page if not done
     return render(request, 'Media/upload.html')
@@ -132,6 +132,3 @@ def test(request):
 
 def help(request):
     return render(request, 'Media/help.html')
-
-def upload(request):
-    return render(request, 'Media/upload.html')
