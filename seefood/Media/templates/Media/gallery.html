@@ -15,26 +15,31 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-          <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="file" name="myfile">
-            <button type="submit">Upload</button>
-          </form>
+            {% for p in uploads %}
+                <div>
+                    <h3>{{p.title}}</h3>
+                    <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
+                    <ul>
+                        <li>Added: {{p.added_on}}</li>
+                        <li>TensorFlow Confidence Scores: {{p.confidence_score}}</li>
+                        <li>TensorFlow Results: {{p.tensor_verdict}}</li>
 
-          {% if uploaded_file_url %}
-            <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p><br>
-            <p>Checking for food....</p>
-          {% endif %}
-
+                    {% if p.accurate == 'Default User Accuracy' %}
+                    <!--TODO: Link the yes and no to update the db-->
+                    <p>Was TensorFlow Correct?</p>
+                    <form method="post" action="/set_accuracy" enctype="multipart/form-data">
+                      {% csrf_token %}
+                      <input type="hidden" name="pk" value="{{p.id}}">
+                      <input class="btn btn-success" type="submit" name="accurate" value="yes">
+                      <input class="btn btn-danger" type="submit" name="accurate" value="no">
+                    </form>
+                    {% else %}
+                    <li>Was TensorFlow Correct? You answered: {{p.accurate}}</li>
+                    </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div>
     </div>
-  {% if tensor_results %}
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Results: {{ tensor_results.result }}</h3>
-            <h4>Confidence Scores: {{ tensor_results.scores }}</h4>
-        </div>
-    </div>
-  {% endif %}
 </div>
 {% endblock cont %}
