@@ -97,3 +97,6 @@ def test(request):
 
 def help(request):
     return render(request, 'Media/help.html')
+
+def upload(request):
+    return render(request, 'Media/upload.html')
