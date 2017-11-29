@@ -17,9 +17,17 @@
         <div class="col-sm-12">
             {% for p in uploads %}
                 <div>
-                    <a href="{% url 'Media:gallery' %}">
-                        <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
-                    </a>
+                    <h3>{{p.title}}</h3>
+                    <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
+                    <ul>
+                        <li>Added: {{p.added_on}}</li>
+                        <li>TensorFlow Confidence Scores: {{p.confidence_score}}</li>
+                        <li>TensorFlow Results: {{p.tensor_verdict}}</li>
+                    </ul>
+                    <!--TODO: Link the yes and no to update the db-->
+                    <p>Was TensorFlow Correct?</p>
+                    <a>Yes</a>
+                    <a>No</a>
                 </div>
             {% endfor %}
         </div>
