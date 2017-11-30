@@ -15,6 +15,16 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 EPOC = os.path.join(BASE_DIR, 'saved_model/model_epoch5.ckpt.meta')
 MODELS = os.path.join(BASE_DIR, 'saved_model/')
 
+###### Initialization code - we only need to run this once and keep in memory.
+sess = tf.Session()
+saver = tf.train.import_meta_graph(EPOC)
+saver.restore(sess, tf.train.latest_checkpoint(MODELS))
+graph = tf.get_default_graph()
+x_input = graph.get_tensor_by_name('Input_xn/Placeholder:0')
+keep_prob = graph.get_tensor_by_name('Placeholder:0')
+class_scores = graph.get_tensor_by_name("fc8/fc8:0")
+######
+
 def find_food(image_path):
     parser = argparse.ArgumentParser(description="Ask SeeFood if there is food in the image provided.")
     parser.add_argument('image_path', help="The full path to an image file stored on disk.")
@@ -22,15 +32,7 @@ def find_food(image_path):
 
     # The script assumes the args are perfect, this will crash and burn otherwise.
 
-    ###### Initialization code - we only need to run this once and keep in memory.
-    sess = tf.Session()
-    saver = tf.train.import_meta_graph(EPOC)
-    saver.restore(sess, tf.train.latest_checkpoint(MODELS))
-    graph = tf.get_default_graph()
-    x_input = graph.get_tensor_by_name('Input_xn/Placeholder:0')
-    keep_prob = graph.get_tensor_by_name('Placeholder:0')
-    class_scores = graph.get_tensor_by_name("fc8/fc8:0")
-    ######
+    print ("converting image ")
 
     # Work in RGBA space (A=alpha) since png's come in as RGBA, jpeg come in as RGB
     # so convert everything to RGBA and then to RGB.

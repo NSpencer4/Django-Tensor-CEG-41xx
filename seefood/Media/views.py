@@ -58,6 +58,7 @@ def upload(request):
 
         return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
+        'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
 
@@ -114,6 +115,7 @@ def upload_from_cam(request):
 
         return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
+        'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
 
