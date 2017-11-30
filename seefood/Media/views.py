@@ -250,6 +250,3 @@ def test(request):
         })
     # Regardless of the event render the page if not done
     return render(request, 'Media/test.html')
-
-def help(request):
-    return render(request, 'Media/help.html')
