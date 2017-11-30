@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^gallery/$', views.gallery, name='gallery'),
     url(r'^test/', views.test, name='test'),
     url(r'^help/', views.help, name='help'),
+    url(r'^upload_from_cam/', views.upload_from_cam, name='upload_from_cam'),
 ]

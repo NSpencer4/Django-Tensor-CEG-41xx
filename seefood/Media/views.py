@@ -10,6 +10,7 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 from datetime import datetime
+from django.http import JsonResponse
 import logging
 import os
 
@@ -60,12 +61,66 @@ def upload(request):
     # Regardless of the event render the page if not done
     return render(request, 'Media/upload.html')
 
+def upload_from_cam(request):
+    # If a user is trying to upload
+    if request.method == 'POST' and request.POST.get('cam_image_src'):
+        # Base64
+        image_src = request.POST.get('cam_image_src')
+        img_title = request.POST.get('img_title')
+
+        # Imports
+        import base64
+        from django.core.files.base import ContentFile
+
+        # Get extension and set title
+        format, imgstr = image_src.split(';base64,')
+        ext = format.split('/')[-1]
+        data = ContentFile(base64.b64decode(imgstr), name=img_title+'.' + ext)
+
+        fs = FileSystemStorage()
+        filename = fs.save(img_title, data)
+        uploaded_file_url = fs.url(filename)
+        image_path = os.path.join(UPLOADS_DIR, filename)
+        display_path = os.path.join('/uploads/', filename)
+        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
+
+        # Run the image through tensorflow
+        tensor_results = find_food.find_food(image_path)
+
+        # Send the Upload obj to the database
+        # Package up the necessary fields
+        upload_obj = {}
+        upload_obj['image_path'] = display_path
+        upload_obj['user'] = request.user
+        upload_obj['confidence_score'] = tensor_results['scores']
+        upload_obj['tensor_verdict'] = tensor_results['result']
+        upload_obj['title'] = img_title
+        upload_obj['accurate'] = 'Default User Accuracy'
+
+        new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
+                                     added_on=datetime.utcnow(),
+                                     user=upload_obj['user'],
+                                     confidence_score=upload_obj['confidence_score'],
+                                     tensor_verdict=upload_obj['tensor_verdict'],
+                                     title=upload_obj['title'],
+                                     accurate=upload_obj['accurate'])
+
+        return render(request, 'Media/upload.html', {
+        'uploaded_file_url': uploaded_file_url,
+        'tensor_results': tensor_results,
+        'new_upload_id': new_upload
+        })
+
+    # Regardless of the event render the page if not done
+    return render(request, 'Media/upload.html')
+
 def gallery(request):
     context = {}
     context['uploads'] = []
 
-    for e in Upload.objects.filter(user=request.user):
-        context['uploads'].append(e)
+    if request.user.is_authenticated:
+        for e in Upload.objects.filter():
+            context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
 
@@ -89,7 +144,7 @@ def set_accuracy(request):
     context = {}
     context['uploads'] = []
 
-    for e in Upload.objects.filter(user=request.user):
+    for e in Upload.objects.all():
         context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
@@ -151,6 +206,43 @@ def logout_view(request):
     return render(request, 'Media/homepage.html')
 
 def test(request):
+    print (request)
+    # If a user is trying to upload
+    if request.method == 'POST' and request.FILES['myfile']:
+        myfile = request.FILES['myfile']
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        image_path = os.path.join(UPLOADS_DIR, filename)
+        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
+
+        # Run the image through tensorflow
+        tensor_results = find_food.find_food(image_path)
+
+        # Send the Upload obj to the database
+        # Package up the necessary fields
+        upload_obj = {}
+        upload_obj['image_path'] = image_path
+        upload_obj['user'] = request.user
+        upload_obj['confidence_score'] = tensor_results['scores']
+        upload_obj['tensor_verdict'] = tensor_results['result']
+        upload_obj['title'] = 'Default Title'
+        upload_obj['accurate'] = 'Default User Accuracy'
+
+        new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
+                                     added_on=datetime.utcnow(),
+                                     user=upload_obj['user'],
+                                     confidence_score=upload_obj['confidence_score'],
+                                     tensor_verdict=upload_obj['tensor_verdict'],
+                                     title=upload_obj['title'],
+                                     accurate=upload_obj['accurate'])
+
+        return render(request, 'Media/results.html', {
+        'uploaded_file_url': uploaded_file_url,
+        'tensor_results': tensor_results,
+        'new_upload_id': new_upload
+        })
+    # Regardless of the event render the page if not done
     return render(request, 'Media/test.html')
 
 def help(request):
