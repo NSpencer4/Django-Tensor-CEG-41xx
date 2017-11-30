@@ -13,9 +13,10 @@
 <!--This is a fallback plan if the webcam doesnt work-->
 
 {% block cont %}
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
+  <div class="row">
+    <div class="col-sm-12">
           
         <div class="jumbotron">
           <div class="container">
@@ -42,8 +43,14 @@
         <div class="col-sm-12">
             <h3>Results: {{ tensor_results.result }}</h3>
             <h4>Confidence Scores: {{ tensor_results.scores }}</h4>
-        </div>
     </div>
+  </div>
   {% endif %}
 </div>
-{% endblock cont %}
+
+<hr>
+<footer>
+  <p>&copy; 2017 SeeFood, Inc.</p>
+</footer> 
+
+{% endblock cont %}  
