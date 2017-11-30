@@ -1,0 +1,31 @@
+{% extends "page.html" %}
+
+{% block title %}Gallery{% endblock %}
+
+
+{% block css %}
+    {{block.super}}
+{% endblock %}
+{% block js %}
+    {{block.super}}
+{% endblock %}
+
+{% block cont %}
+<!--Results-->
+
+<div class="row">
+    {% if uploaded_file_url %}
+        <h3>Upload Results:</h3>
+        <img src="{{ uploaded_file_url }}" class="img-responsive img-rounded automar" alt="{{ p.title }}"><br>
+    {% endif %}
+
+    {% if tensor_results %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h3>{{ tensor_results.result }}</h3>
+            <h4>You can view more details about this image upload as well as see other uploads in the gallery.</h4>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock cont %}
