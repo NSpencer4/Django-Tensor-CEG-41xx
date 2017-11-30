@@ -153,6 +153,7 @@ def logout_view(request):
     return render(request, 'Media/homepage.html')
 
 def test(request):
+    print (request)
     # If a user is trying to upload
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']

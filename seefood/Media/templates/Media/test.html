@@ -97,23 +97,11 @@
                 document.querySelector('img').src = canvas.toDataURL('image/webp');
                 document.querySelector('img').style.height = "" + video.height + "px";
                 document.querySelector('img').style.width = "" + video.width + "px";
-
+                var base64data = canvas.toDataURL();
+                $('#screenshotBase64').val(base64data);
+                console.log($('#screenshotBase64').val());
                 showBrowse();
             }
-        }
-
-        function upload() {
-            var data = canvas.toDataUrl();
-            $.ajax({
-                type: "POST",
-                data: {
-                    imgBase64: data        
-                }
-            }).done(function(o) {
-                console.log("done: " + o);
-            }).fail(function(error) {
-                console.log("Error");
-            });
         }
 
         video.addEventListener('click', snapshot, false);
@@ -131,13 +119,15 @@
 
 {% block cont %}
 <div class="row">
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" action="/upload_from_cam" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="panel panel-default">
             <div class="panel-heading fml">
                 <button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /
                 <input id="fileInput" name="myfile" type="file" onchange="onFileSelected(event)" style="display:none" />
                 <button id="captureBtn" type="button" class="btn btn-primary" onclick="captureClick()">Capture</button>
+                <input type="text" placeholder="Title" name="img_title" required>
+                <input id="screenshotBase64" type="text" name="cam_image_src" style="display:none">
                 <!-- <input type="file" accept="image/*;capture=camera" style="display:none;">             -->
             </div>
             <div class="panel-body">
