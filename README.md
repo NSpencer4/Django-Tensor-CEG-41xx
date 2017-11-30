@@ -1,5 +1,8 @@
 # Group-4110 SeeFood Project
 
+**Team Members:**
+Chase Spencer, Alyssa Carpenter, Sam Stevens, Joe Dobrovolc
+
 **Linux Environment:**
 
 1. Install Python 3.5.2
