@@ -118,8 +118,9 @@ def gallery(request):
     context = {}
     context['uploads'] = []
 
-    for e in Upload.objects.filter(user=request.user):
-        context['uploads'].append(e)
+    if request.user.is_authenticated:
+        for e in Upload.objects.filter(user=request.user):
+            context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
 
