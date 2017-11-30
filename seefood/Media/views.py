@@ -119,7 +119,7 @@ def gallery(request):
     context['uploads'] = []
 
     if request.user.is_authenticated:
-        for e in Upload.objects.filter(user=request.user):
+        for e in Upload.objects.filter():
             context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
@@ -144,7 +144,7 @@ def set_accuracy(request):
     context = {}
     context['uploads'] = []
 
-    for e in Upload.objects.filter(user=request.user):
+    for e in Upload.objects.all():
         context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
