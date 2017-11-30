@@ -10,11 +10,9 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 from datetime import datetime
-<<<<<<< HEAD
 from django.http import JsonResponse
-=======
 import logging
->>>>>>> 003064ce2e6c1115cb628bdf1f754db79f3fa69f
+
 import os
 
 # Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media
