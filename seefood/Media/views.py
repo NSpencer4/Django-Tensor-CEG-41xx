@@ -105,7 +105,7 @@ def upload_from_cam(request):
                                      title=upload_obj['title'],
                                      accurate=upload_obj['accurate'])
 
-        return render(request, 'Media/upload.html', {
+        return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
         'tensor_results': tensor_results,
         'new_upload_id': new_upload
@@ -206,7 +206,13 @@ def logout_view(request):
     return render(request, 'Media/homepage.html')
 
 def test(request):
-    print (request)
+
+    if request.method == 'POST':
+        cam_src = request.POST['cam_image_src']
+        if cam_src != '':
+            print ("return upload from cam view")
+            return upload_from_cam(request)
+
     # If a user is trying to upload
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
