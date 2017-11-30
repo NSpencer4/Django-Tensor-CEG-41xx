@@ -1,0 +1,14 @@
+body {
+  text-align: center;
+  width: auto;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+footer {
+  text-align: center;
+}

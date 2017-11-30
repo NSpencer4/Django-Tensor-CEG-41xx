@@ -23,34 +23,34 @@ UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
 def upload(request):
     # If a user is trying to upload
     if request.method == 'POST' and request.FILES['image_src']:
-        image_src = request.FILES['image_src']
-        fs = FileSystemStorage()
-        filename = fs.save(image_src.name, image_src)
-        uploaded_file_url = fs.url(filename)
-        image_path = os.path.join(UPLOADS_DIR, filename)
-        display_path = os.path.join('/uploads/', filename)
-        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
+        for image_src in request.FILES.getlist('image_src'):
+            fs = FileSystemStorage()
+            filename = fs.save(image_src.name, image_src)
+            uploaded_file_url = fs.url(filename)
+            image_path = os.path.join(UPLOADS_DIR, filename)
+            display_path = os.path.join('/uploads/', filename)
+            print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
 
-        # Run the image through tensorflow
-        tensor_results = find_food.find_food(image_path)
+            # Run the image through tensorflow
+            tensor_results = find_food.find_food(image_path)
 
-        # Send the Upload obj to the database
-        # Package up the necessary fields
-        upload_obj = {}
-        upload_obj['image_path'] = display_path
-        upload_obj['user'] = request.user
-        upload_obj['confidence_score'] = tensor_results['scores']
-        upload_obj['tensor_verdict'] = tensor_results['result']
-        upload_obj['title'] = request.POST.get('image_title')
-        upload_obj['accurate'] = 'Default User Accuracy'
+            # Send the Upload obj to the database
+            # Package up the necessary fields
+            upload_obj = {}
+            upload_obj['image_path'] = display_path
+            upload_obj['user'] = request.user
+            upload_obj['confidence_score'] = tensor_results['scores']
+            upload_obj['tensor_verdict'] = tensor_results['result']
+            upload_obj['title'] = image_src.name
+            upload_obj['accurate'] = 'Default User Accuracy'
 
-        new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
-                                     added_on=datetime.utcnow(),
-                                     user=upload_obj['user'],
-                                     confidence_score=upload_obj['confidence_score'],
-                                     tensor_verdict=upload_obj['tensor_verdict'],
-                                     title=upload_obj['title'],
-                                     accurate=upload_obj['accurate'])
+            new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
+                                         added_on=datetime.utcnow(),
+                                         user=upload_obj['user'],
+                                         confidence_score=upload_obj['confidence_score'],
+                                         tensor_verdict=upload_obj['tensor_verdict'],
+                                         title=upload_obj['title'],
+                                         accurate=upload_obj['accurate'])
 
         return render(request, 'Media/upload.html', {
         'uploaded_file_url': uploaded_file_url,
@@ -119,7 +119,7 @@ def gallery(request):
     context['uploads'] = []
 
     if request.user.is_authenticated:
-        for e in Upload.objects.filter(user=request.user):
+        for e in Upload.objects.all():
             context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
@@ -144,7 +144,7 @@ def set_accuracy(request):
     context = {}
     context['uploads'] = []
 
-    for e in Upload.objects.filter(user=request.user):
+    for e in Upload.objects.all():
         context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
