@@ -21,10 +21,10 @@ UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
 
 def upload(request):
     # If a user is trying to upload
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
+    if request.method == 'POST' and request.FILES['image_src']:
+        image_src = request.FILES['image_src']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(image_src.name, image_src)
         uploaded_file_url = fs.url(filename)
         image_path = os.path.join(UPLOADS_DIR, filename)
         display_path = os.path.join('/uploads/', filename)
@@ -40,7 +40,7 @@ def upload(request):
         upload_obj['user'] = request.user
         upload_obj['confidence_score'] = tensor_results['scores']
         upload_obj['tensor_verdict'] = tensor_results['result']
-        upload_obj['title'] = 'Default Title'
+        upload_obj['title'] = request.POST.get('image_title')
         upload_obj['accurate'] = 'Default User Accuracy'
 
         new_upload = Upload.objects.create(image_path=upload_obj['image_path'],

@@ -18,7 +18,8 @@
         <div class="col-sm-12">
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="myfile">
+            <input type="text" placeholder="Title" name="image_title" required>
+            <input type="file" name="image_src" required>
             <button type="submit">Upload</button>
           </form>
 
