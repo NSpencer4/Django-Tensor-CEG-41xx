@@ -118,7 +118,7 @@ def upload_from_cam(request):
         })
 
     # Regardless of the event render the page if not done
-    return render(request, 'Media/upload.html')
+    return render(request, 'Media/test.html')
 
 def gallery(request):
     context = {}
