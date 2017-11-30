@@ -15,10 +15,6 @@ ul {
   width: 30%;
 }
 
-figure {
-  margin-bottom: 2%;
-}
-
 footer {
   text-align: center;
 }
@@ -34,4 +30,12 @@ footer {
 
 .small-pad {
     padding: 5px;
+}
+
+#banner_image {
+  width: 100%;
+  height: 200px;
+  background-image: url("pjimage.jpg");
+  background-position: center;
+  margin-bottom: 2%;
 }

@@ -14,13 +14,12 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 <li><a href="/upload">Upload</a></li>
-                <li><a href="/gallery">Gallery</a></li>
                 <li><a href="/upload_from_cam">Camera Upload</a></li>
                 {% if not user.is_authenticated and loginForm %}
                   <li><a href="#" data-toggle="modal" data-target="#loginModal">Login</a></li>
 
                 {%endif%}
-
+                  <li><a href="/gallery">Gallery</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'logout' %}?next={{request.get_full_path}}">Logout</a></li>
                 {% endif %}
@@ -36,7 +35,10 @@
               </ul>
        </div>
    </div>
+ 
 </nav>
+
+<div id="banner_image"></div>
 
 {% if loginForm %}
     {% include "registration/login.html" %}
