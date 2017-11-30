@@ -58,7 +58,6 @@ def upload(request):
 
         return render(request, 'Media/upload.html', {
         'uploaded_file_url': uploaded_file_url,
-        'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
 
@@ -115,12 +114,11 @@ def upload_from_cam(request):
 
         return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
-        'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
 
     # Regardless of the event render the page if not done
-    return render(request, 'Media/test.html')
+    return render(request, 'Media/upload.html')
 
 def gallery(request):
     context = {}
@@ -131,6 +129,20 @@ def gallery(request):
 
     if request.user.is_authenticated:
         for e in Upload.objects.all():
+
+            import re
+            e.confidence_score = e.confidence_score.strip("[")
+            e.confidence_score = e.confidence_score.strip("]")
+            e.confidence_score = re.split('\s+', e.confidence_score)
+            e.confidence_score = [x for x in e.confidence_score if x != '']
+            print(e.confidence_score)
+
+            # Ive never seen a confidence go above a 3.2 so I believe we can assume this is a good max
+            if float(e.confidence_score[0]) > float(e.confidence_score[1]):
+                e.confidence_score = "{0:.0f}%".format(abs(float(e.confidence_score[0])/3.2)*100)
+            else:
+                e.confidence_score = "{0:.0f}%".format(abs(float(e.confidence_score[1])/3.2)*100)
+
             context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
