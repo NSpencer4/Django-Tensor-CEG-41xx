@@ -16,6 +16,13 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
+          
+          <div class="jumbotron">
+            <div class="container">
+              <h1>Upload</h1>
+            </div>
+          </div>
+  
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <input type="text" placeholder="Title" name="image_title" required>
