@@ -12,39 +12,58 @@
 
 
 {% block cont %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12">
-            {% if user.is_authenticated %}
-                {% for p in uploads %}
-                    <div>
-                        <h3>{{p.title}}</h3>
-                        <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
-                        <ul>
-                            <li>Added: {{p.added_on}}</li>
-                            <li>Submitted By: {{p.user}}</li>
-                            <li>TensorFlow Confidence Scores: {{p.confidence_score}}</li>
-                            <li>TensorFlow Results: {{p.tensor_verdict}}</li>
-
-                        {% if p.accurate == 'Default User Accuracy' %}
-                        <!--TODO: Link the yes and no to update the db-->
-                        <p>Was TensorFlow Correct?</p>
-                        <form method="post" action="/set_accuracy" enctype="multipart/form-data">
-                          {% csrf_token %}
-                          <input type="hidden" name="pk" value="{{p.id}}">
-                          <input class="btn btn-success" type="submit" name="accurate" value="yes">
-                          <input class="btn btn-danger" type="submit" name="accurate" value="no">
-                        </form>
-                        {% else %}
-                        <li>Was TensorFlow Correct? You answered: {{p.accurate}}</li>
-                        </ul>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-            {% else %}
-                <h1>Please Login!</h1>
-            {% endif %}
+<div class="gallery">
+  <div class="row">
+    <div class="col-sm-12">
+      
+      <div class="jumbotron">
+        <div class="container">
+          <h1>Gallery</h1>
         </div>
+      </div>
+      
+    {% if user.is_authenticated %}
+    {% for p in uploads %}
+    
+    <figure>
+      <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
+      <figcaption>
+        <h3>{{p.title}}</h3>
+        <ul>
+          <li>Added: {{p.added_on}}</li>
+          <li>Submitted By: {{p.user}}</li>
+          <li>TensorFlow Confidence Scores: {{p.confidence_score}}</li>
+          <li>TensorFlow Results: {{p.tensor_verdict}}</li>
+
+          {% if p.accurate == 'Default User Accuracy' %}
+                    
+                    <!--TODO: Link the yes and no to update the db-->
+                    
+          <p>Was TensorFlow Correct?</p>
+          <form method="post" action="/set_accuracy" enctype="multipart/form-data">
+          {% csrf_token %}
+            <input type="hidden" name="pk" value="{{p.id}}">
+            <input class="btn btn-success" type="submit" name="accurate" value="yes">
+            <input class="btn btn-danger" type="submit" name="accurate" value="no">
+          </form>
+          {% else %}
+          <li>Was TensorFlow Correct? You answered: {{p.accurate}}</li>
+        </ul>
+        {% endif %}
+      </figcaption>
+    </figure> 
+    {% endfor %}
+    {% else %}
+      <h1>Please Login!</h1>
+    {% endif %}
+    
     </div>
+  </div>
 </div>
+
+    <hr>
+    <footer>
+      <p>&copy; 2017 SeeFood, Inc.</p>
+    </footer>
+
 {% endblock cont %}

@@ -9,6 +9,16 @@ ul {
     padding: 0;
 }
 
+.gallery img{
+  margin-left: 35%;
+  text-align: center;
+  width: 30%;
+}
+
+figure {
+  margin-bottom: 2%;
+}
+
 footer {
   text-align: center;
 }

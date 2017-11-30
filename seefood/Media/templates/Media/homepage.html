@@ -13,57 +13,45 @@
 
 {% block cont %}
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      
+      <div class="jumbotron">
+        <div class="container">
+          <h1>SeeFood</h1>
+          <p>Welcome to SeeFood! This website is used to upload images and determine
+          if the image is a picture of food or not a picture of food!</p>
+        </div>
+      </div>
 
-    <title>SeeFood</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="./bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-
-  <body>
-    <div class="jumbotron">
       <div class="container">
-        <h1>SeeFood</h1>
-        <p>Welcome to SeeFood! This website is used to upload images and determine
-        if the image is a picture of food or not a picture of food!</p>
-      </div>
+        <div class="row">
+          <div class="col-md-3">
+            <h2>Upload</h2>
+            <p>Choose a photo (or take one from your camera) to upload and be analyzed </p>
+            <p><a class="btn btn-default" href="/upload" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-3">
+            <h2>Gallery</h2>
+            <p>Previously uploaded pictures and their scores.</p>
+            <p><a class="btn btn-default" href="/gallery" role="button">View details &raquo;</a></p>
+          </div>
+          <div class="col-md-3">
+            <h2>Help</h2>
+            <p>Use this page if you want to know how to use the application</p>
+            <p><a class="btn btn-default" href="/help" role="button">View details &raquo;</a></p>
+          </div>
+        </div>
+      </div> <!-- /container -->
+      
     </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3">
-          <h2>Upload</h2>
-          <p>Choose a photo (or take one from your camera) to upload and be analyzed </p>
-          <p><a class="btn btn-default" href="/upload" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-3">
-          <h2>Gallery</h2>
-          <p>Previously uploaded pictures and their scores.</p>
-          <p><a class="btn btn-default" href="/gallery" role="button">View details &raquo;</a></p>
-        </div>
-        <div class="col-md-3">
-          <h2>Help</h2>
-          <p>Use this page if you want to know how to use the application</p>
-          <p><a class="btn btn-default" href="/help" role="button">View details &raquo;</a></p>
-        </div>
-      </div>
-    </div> <!-- /container -->
+  </div>
+</div>        
         
-    <hr>    
-    <footer>
-      <p>&copy; 2017 SeeFood, Inc.</p>
-    </footer>    
-  </body>
-</html>
-
+<hr>    
+<footer>
+  <p>&copy; 2017 SeeFood, Inc.</p>
+</footer>    
 
 {% endblock cont %}
