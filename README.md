@@ -1,6 +1,6 @@
 # Group-4110 SeeFood Project
 
-**Team Members:**
+**Team Members Of Group 5:**
 Chase Spencer, Alyssa Carpenter, Sam Stevens, Joe Dobrovolc
 
 **File Navigation For The Grader:**
