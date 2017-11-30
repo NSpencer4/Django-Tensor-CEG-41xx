@@ -27,3 +27,11 @@ footer {
     margin: auto;
     padding-bottom: 30px;
 }
+
+.automar {
+    margin: auto;
+}
+
+.small-pad {
+    padding: 5px;
+}

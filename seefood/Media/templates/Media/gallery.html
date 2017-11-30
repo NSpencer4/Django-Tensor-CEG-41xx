@@ -25,8 +25,8 @@
     {% if user.is_authenticated %}
     {% for p in uploads %}
 
-    <figure>
-      <img src="{{ p.image_path }}" class="img-responsive img-rounded" alt="{{ p.title }}">
+    <figure class="small-pad">
+      <img src="{{ p.image_path }}" class="img-responsive img-rounded automar" alt="{{ p.title }}">
       <figcaption>
         <h3>{{p.title}}</h3>
         <ul>
