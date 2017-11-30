@@ -25,8 +25,7 @@
   
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="text" placeholder="Title" name="image_title" required>
-            <input type="file" name="image_src" required>
+            <input type="file" name="image_src" multiple required>
             <button type="submit">Upload</button>
           </form>
 
