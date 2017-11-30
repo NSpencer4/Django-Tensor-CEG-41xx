@@ -10,7 +10,11 @@ from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils import timezone
 from datetime import datetime
+<<<<<<< HEAD
 from django.http import JsonResponse
+=======
+import logging
+>>>>>>> 003064ce2e6c1115cb628bdf1f754db79f3fa69f
 import os
 
 # Example output: C:\Users\Chase\Documents\projects\group-4110\seefood\Media
@@ -21,12 +25,13 @@ UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
 
 def upload(request):
     # If a user is trying to upload
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
+    if request.method == 'POST' and request.FILES['image_src']:
+        image_src = request.FILES['image_src']
         fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
+        filename = fs.save(image_src.name, image_src)
         uploaded_file_url = fs.url(filename)
         image_path = os.path.join(UPLOADS_DIR, filename)
+        display_path = os.path.join('/uploads/', filename)
         print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
 
         # Run the image through tensorflow
@@ -35,11 +40,11 @@ def upload(request):
         # Send the Upload obj to the database
         # Package up the necessary fields
         upload_obj = {}
-        upload_obj['image_path'] = image_path
+        upload_obj['image_path'] = display_path
         upload_obj['user'] = request.user
         upload_obj['confidence_score'] = tensor_results['scores']
         upload_obj['tensor_verdict'] = tensor_results['result']
-        upload_obj['title'] = 'Default Title'
+        upload_obj['title'] = request.POST.get('image_title')
         upload_obj['accurate'] = 'Default User Accuracy'
 
         new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
@@ -55,22 +60,43 @@ def upload(request):
         'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
+
     # Regardless of the event render the page if not done
     return render(request, 'Media/upload.html')
 
 def gallery(request):
-    # TODO: Change this to query by user
-    context = {
-        'uploads': Upload.objects.all()
-    }
+    context = {}
+    context['uploads'] = []
+
+    for e in Upload.objects.filter(user=request.user):
+        context['uploads'].append(e)
 
     return render(request, 'Media/gallery.html', context)
 
-def set_accuracy(request, img_id):
-    # TODO: Fix this to allow for user input on if tensorflow was accurate or not
-    if request.method == 'PUT':
+def set_accuracy(request):
+    if request.method == 'POST':
+        id = request.POST.get('pk')
+        accurate = request.POST.get('accurate')
         # Update the upload obj to see if tensorflow was accurate or not
-        img_obj = get_object_or_404(Upload, pk=img_id)
+        get_object_or_404(Upload, pk=id)
+
+        try:
+            selected_img = Upload.objects.get(pk=id)
+        except (KeyError, Upload.DoesNotExist):
+            return render(request, 'Media/gallery.html')
+        else:
+            selected_img.accurate = accurate
+            selected_img.save()
+
+        # logger = logging.getLogger(__name__)
+        # logger.debug(request)
+    context = {}
+    context['uploads'] = []
+
+    for e in Upload.objects.filter(user=request.user):
+        context['uploads'].append(e)
+
+    return render(request, 'Media/gallery.html', context)
 
 def index(request):
 

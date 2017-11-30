@@ -31,10 +31,5 @@ class Upload(models.Model):
     def get_absolute_url(self):
         return reverse('Media:gallery', args=[str(self.id)])
 
-    # Older python version
-    # def __str__(self):
-    #     return self.image_path
-
-    # Older python 3 way
     def __unicode__(self):
         return self.image_path
