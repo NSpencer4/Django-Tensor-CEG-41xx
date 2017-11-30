@@ -12,3 +12,8 @@ ul {
 footer {
   text-align: center;
 }
+
+#uploader {
+    margin: auto;
+    padding-bottom: 30px;
+}

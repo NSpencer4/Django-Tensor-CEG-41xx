@@ -17,16 +17,17 @@
     <div class="row">
         <div class="col-sm-12">
           
-          <div class="jumbotron">
-            <div class="container">
-              <h1>Upload</h1>
-            </div>
+        <div class="jumbotron">
+          <div class="container">
+            <h1>Upload</h1>
+            <p>Here you can upload images and we will determine if the image contains food or not.</p>
           </div>
+        </div>
   
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <input type="file" name="image_src" multiple required>
-            <button type="submit">Upload</button>
+            <input type="file" id="uploader" name="image_src" multiple required>
+            <button type="submit" class="btn btn-primary">Upload</button>
           </form>
 
           {% if uploaded_file_url %}

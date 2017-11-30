@@ -21,6 +21,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 UPLOADS_DIR = os.path.join(BASE_DIR, 'uploads')
 
 def upload(request):
+
+    if not request.user.is_authenticated:
+        return redirect('/login')
+
     # If a user is trying to upload
     if request.method == 'POST' and request.FILES['image_src']:
         for image_src in request.FILES.getlist('image_src'):
@@ -62,6 +66,10 @@ def upload(request):
     return render(request, 'Media/upload.html')
 
 def upload_from_cam(request):
+
+    if not request.user.is_authenticated:
+        return redirect('/login')
+
     # If a user is trying to upload
     if request.method == 'POST' and request.POST.get('cam_image_src'):
         # Base64
@@ -118,6 +126,9 @@ def gallery(request):
     context = {}
     context['uploads'] = []
 
+    if not request.user.is_authenticated:
+        return redirect('/login')
+
     if request.user.is_authenticated:
         for e in Upload.objects.all():
             context['uploads'].append(e)
@@ -125,6 +136,10 @@ def gallery(request):
     return render(request, 'Media/gallery.html', context)
 
 def set_accuracy(request):
+
+    if not request.user.is_authenticated:
+        return redirect('/login')
+
     if request.method == 'POST':
         id = request.POST.get('pk')
         accurate = request.POST.get('accurate')
