@@ -56,7 +56,7 @@ def upload(request):
                                          title=upload_obj['title'],
                                          accurate=upload_obj['accurate'])
 
-        return render(request, 'Media/upload.html', {
+        return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
         'new_upload_id': new_upload
         })
