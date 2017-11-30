@@ -86,6 +86,7 @@
 
         // ONLY WORKS IN HTTPS
         var video = document.querySelector('video');
+        var capture = document.querySelector('#captureBtn');
         var canvas = document.querySelector('canvas');
         var ctx = canvas.getContext('2d');
         var localMediaStream = null;
@@ -111,6 +112,7 @@
         }
 
         video.addEventListener('click', snapshot, false);
+        capture.addEventListener('click', snapshot, false);
 
         // Not showing vendor prefixes or code that works cross-browser.
         navigator.getUserMedia({video: true}, function(stream) {
