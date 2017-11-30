@@ -25,6 +25,7 @@
 {% block js %}
     {{block.super}}
     <script>
+        var imgCount = 0;
 
         $(document).ready(function() {
             // show / hide capture or browse
@@ -80,10 +81,12 @@
             };
 
             reader.readAsDataURL(selectedFile);
+            imgCount++;
         }
 
         // ONLY WORKS IN HTTPS
         var video = document.querySelector('video');
+        var capture = document.querySelector('#captureBtn');
         var canvas = document.querySelector('canvas');
         var ctx = canvas.getContext('2d');
         var localMediaStream = null;
@@ -104,7 +107,12 @@
             }
         }
 
+        function addImage() {
+            var el = '<img class="img-rounded">'
+        }
+
         video.addEventListener('click', snapshot, false);
+        capture.addEventListener('click', snapshot, false);
 
         // Not showing vendor prefixes or code that works cross-browser.
         navigator.getUserMedia({video: true}, function(stream) {
@@ -119,25 +127,30 @@
 
 {% block cont %}
 <div class="row">
-    <form method="post" action="/upload_from_cam" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="panel panel-default">
             <div class="panel-heading fml">
-                <button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /
+                <!--<button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /-->
                 <input id="fileInput" name="myfile" type="file" onchange="onFileSelected(event)" style="display:none" />
-                <button id="captureBtn" type="button" class="btn btn-primary" onclick="captureClick()">Capture</button>
-                <input type="text" placeholder="Title" name="img_title" required>
+                <button id="captureBtn" type="button" class="btn btn-primary" onclick="captureClick()">Capture</button>                
                 <input id="screenshotBase64" type="text" name="cam_image_src" style="display:none">
                 <!-- <input type="file" accept="image/*;capture=camera" style="display:none;">             -->
             </div>
             <div class="panel-body">
                 <div class="col-sm-12 fml">
-                    <p id="helperText">Click anywhere on the video feed to take a screenshot</p>
+                    <p id="helperText">Click the capture button to take a screenshot</p>
+                    <input type="text" placeholder="Title" name="img_title" required>
+                    <br>
                     <video id="thevid" width="480" height="360" autoplay></video>
                     <br>    
                     <img id="theimg" src="https://vignette.wikia.nocookie.net/theoffice/images/c/cd/Dwight_Schrute.jpg/revision/latest?cb=20110105114630" alt="imagealt" class="img-rounded">                    
                     <canvas style="display:none;"></canvas>
                 </div>
+            </div>
+            <hr>
+            <div id="imgContainer">
+
             </div>
             <div class="panel-footer fml">
                 <button type="submit" class="btn btn-primary">Upload</button>

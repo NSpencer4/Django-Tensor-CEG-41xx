@@ -105,14 +105,14 @@ def upload_from_cam(request):
                                      title=upload_obj['title'],
                                      accurate=upload_obj['accurate'])
 
-        return render(request, 'Media/upload.html', {
+        return render(request, 'Media/results.html', {
         'uploaded_file_url': uploaded_file_url,
         'tensor_results': tensor_results,
         'new_upload_id': new_upload
         })
 
     # Regardless of the event render the page if not done
-    return render(request, 'Media/upload.html')
+    return render(request, 'Media/test.html')
 
 def gallery(request):
     context = {}
@@ -204,46 +204,3 @@ def loginUser(request):
 def logout_view(request):
     logout(request)
     return render(request, 'Media/homepage.html')
-
-def test(request):
-    print (request)
-    # If a user is trying to upload
-    if request.method == 'POST' and request.FILES['myfile']:
-        myfile = request.FILES['myfile']
-        fs = FileSystemStorage()
-        filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
-        image_path = os.path.join(UPLOADS_DIR, filename)
-        print ("RUNNING TENSORFLOW ON IMAGE:", image_path, ". THIS WILL TAKE A COUPLE OF MINUTES...")
-
-        # Run the image through tensorflow
-        tensor_results = find_food.find_food(image_path)
-
-        # Send the Upload obj to the database
-        # Package up the necessary fields
-        upload_obj = {}
-        upload_obj['image_path'] = image_path
-        upload_obj['user'] = request.user
-        upload_obj['confidence_score'] = tensor_results['scores']
-        upload_obj['tensor_verdict'] = tensor_results['result']
-        upload_obj['title'] = 'Default Title'
-        upload_obj['accurate'] = 'Default User Accuracy'
-
-        new_upload = Upload.objects.create(image_path=upload_obj['image_path'],
-                                     added_on=datetime.utcnow(),
-                                     user=upload_obj['user'],
-                                     confidence_score=upload_obj['confidence_score'],
-                                     tensor_verdict=upload_obj['tensor_verdict'],
-                                     title=upload_obj['title'],
-                                     accurate=upload_obj['accurate'])
-
-        return render(request, 'Media/results.html', {
-        'uploaded_file_url': uploaded_file_url,
-        'tensor_results': tensor_results,
-        'new_upload_id': new_upload
-        })
-    # Regardless of the event render the page if not done
-    return render(request, 'Media/test.html')
-
-def help(request):
-    return render(request, 'Media/help.html')
