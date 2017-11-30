@@ -131,7 +131,7 @@
         {% csrf_token %}
         <div class="panel panel-default">
             <div class="panel-heading fml">
-                <button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /
+                <!--<button id="browseBtn" type="button" class="btn btn-default" onclick="browseClick();">Browse</button> /-->
                 <input id="fileInput" name="myfile" type="file" onchange="onFileSelected(event)" style="display:none" />
                 <button id="captureBtn" type="button" class="btn btn-primary" onclick="captureClick()">Capture</button>                
                 <input id="screenshotBase64" type="text" name="cam_image_src" style="display:none">
@@ -139,7 +139,7 @@
             </div>
             <div class="panel-body">
                 <div class="col-sm-12 fml">
-                    <p id="helperText">Click anywhere on the video feed to take a screenshot</p>
+                    <p id="helperText">Click the capture button to take a screenshot</p>
                     <input type="text" placeholder="Title" name="img_title" required>
                     <br>
                     <video id="thevid" width="480" height="360" autoplay></video>
