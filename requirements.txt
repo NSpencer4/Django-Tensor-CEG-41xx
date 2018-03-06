@@ -1,7 +1,0 @@
-Django==1.11.7
-django-crispy-forms==1.7.0
-django-debug-toolbar==1.9
-numpy==1.13.3
-Pillow==3.1.2
-sqlparse==0.2.4
-tensorflow==1.4.0
