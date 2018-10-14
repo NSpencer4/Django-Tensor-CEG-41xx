@@ -13,3 +13,4 @@ node_modules
 *.log
 *.pyc
 .editorconfig
+package-lock.json
